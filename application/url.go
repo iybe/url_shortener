@@ -1,17 +1,25 @@
 package application
 
-type urlApp struct{}
+import (
+	"url_shortener/services"
 
-func NewUrlApp() *urlApp {
-	return &urlApp{}
+	"github.com/gin-gonic/gin"
+)
+
+type UrlApp struct {
+	SizeUrlShortened int
+}
+
+func NewUrlApp() *UrlApp {
+	return &UrlApp{}
 }
 
 type UrlAppInterface interface {
-	ShortenUrl() (string, error)
+	ShortenUrl(*gin.Context, string) (string, error)
 }
 
-var _ UrlAppInterface = &urlApp{}
+var _ UrlAppInterface = &UrlApp{}
 
-func (u *urlApp) ShortenUrl() (string, error) {
-	return "", nil
+func (u *UrlApp) ShortenUrl(c *gin.Context, url string) (string, error) {
+	return services.GenerateStringRandom(u.SizeUrlShortened), nil
 }
